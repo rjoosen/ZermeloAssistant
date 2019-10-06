@@ -1,2 +1,10 @@
 {
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+    "wouter_token": "ek8od99iqdaa0phfnsl5nfofl9",
+    "berend_token": "tt7cq8p4lac0rftdp9ddeuc3f4",
+    "school_url": "mencia-isbreda"
+  }
 }

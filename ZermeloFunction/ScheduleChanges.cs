@@ -12,18 +12,7 @@ using ZermeloFunction.Models;
 namespace ZermeloFunction
 {
     public static class ExtensionMethods
-    {
-        //public static DateTime FromUnixTime(this long unixTime)
-        //{
-        //    var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
-        //    return epoch.AddSeconds(unixTime);
-        //}
-        //public static long ToUnixTime(this DateTime date)
-        //{
-        //    var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
-        //    return Convert.ToInt64((date - epoch).TotalSeconds);
-        //}
-
+    {        
         // Local Time --> Unix Time
         public static long ToUnixTime(this DateTime dateTime)
         {
@@ -227,6 +216,10 @@ namespace ZermeloFunction
 
         public ZermeloResult GetSchedule(string date, string leerling)
         {
+            var wouterToken = Environment.GetEnvironmentVariable("wouter_token");
+            var berendToken = Environment.GetEnvironmentVariable("berend_token");
+            var schoolUrl = Environment.GetEnvironmentVariable("school_url");
+
             long dateStart = 1552892400;
             long dateEnd = 1553274000;
             var unixDateStart = DateTime.ParseExact(date.ToString(), "dd-MM-yyyy", null);
@@ -239,10 +232,10 @@ namespace ZermeloFunction
                 string url = string.Empty;
                 if (leerling.ToLower() == "wouter")
                     url =
-                        $"https://mencia-isbreda.zportal.nl/api/v3/appointments?user=~me&start={dateStart}&end={dateEnd}&access_token=ek8od99iqdaa0phfnsl5nfofl9";
+                        $"https://{schoolUrl}.zportal.nl/api/v3/appointments?user=~me&start={dateStart}&end={dateEnd}&access_token={wouterToken}";
                 else if (leerling.ToLower() == "berend")
                     url =
-                        $"https://mencia-isbreda.zportal.nl/api/v3/appointments?user=~me&start={dateStart}&end={dateEnd}&access_token=tt7cq8p4lac0rftdp9ddeuc3f4";
+                        $"https://{schoolUrl}.zportal.nl/api/v3/appointments?user=~me&start={dateStart}&end={dateEnd}&access_token={berendToken}";
 
                 var request = (HttpWebRequest)WebRequest.Create(url);
 
@@ -277,8 +270,7 @@ namespace ZermeloFunction
 
         public DateTime FindDateByWeekday(DayOfWeek weekday)
         {
-            string the_temp_date = DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture);
-
+            string the_temp_date = DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.CurrentCulture);            
             // Find the next Friday.
             // Get the number of days between the_date's
             // day of the week and Friday.
